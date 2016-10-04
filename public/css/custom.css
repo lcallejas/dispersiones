@@ -1,0 +1,101 @@
+/* ========================================================================
+   General
+ ========================================================================== */
+.lc-title{
+	margin-bottom: 35px;
+}
+.btn{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+hr {
+  -moz-border-bottom-colors: none;
+  -moz-border-image: none;
+  -moz-border-left-colors: none;
+  -moz-border-right-colors: none;
+  -moz-border-top-colors: none;
+  border-color: #EEEEEE -moz-use-text-color #FFFFFF;
+  border-style: solid none;
+  border-width: 1px 0;
+  margin: 18px 0;
+  width: 100%;
+}
+.col-btn{
+	width: 15%;
+}
+.pagination{
+	position: relative;
+	float: left;
+	left: 50%;
+}
+.pagination li{
+	float: left;
+	position: relative;
+	right: 50%;
+}
+.btn-margin-top-custom{
+	margin-top: 25.5px;
+}
+
+table thead tr th,
+table tfoot tr th{
+	text-align: center;
+}
+.number-cell{
+	text-align: right;
+
+}
+
+/* ========================================================================
+   NavBar
+ ========================================================================== */
+ div.navbar{
+ 	padding-top: 13px;
+ 	padding-left: 15px;
+ 	padding-right: 15px;
+ }
+.navbar-brand{
+	padding: 5px;
+	margin-left: 50px;
+}
+.navbar-brand img{
+	max-height: 100%;
+}
+@media(max-width:767px) {
+	ul.navbar-top-links > li{
+		width: 100%;
+	}
+	.dropdown-user{
+		width: 100%;
+	}
+}
+@media(min-width:768px) {
+	nav.navbar {
+		min-height: 100px;
+	}
+
+	.navbar-brand {
+		height: 100px;
+	}
+	.navbar-brand img,
+	.navbar-brand p{
+		position: relative;
+		top: 50%;
+		-webkit-transform: translateY(-50%);
+		-moz-transform: translateY(-50%);
+		-ms-transform: translateY(-50%);
+		-o-transform: translateY(-50%);
+		transform: translateY(-50%);
+	}
+
+	.navbar-top-links{
+		height: 100px;
+	}
+	.navbar-top-links > li{
+		height: 100px;
+	}
+	.navbar-top-links > li > a{
+		height: 100px;
+		padding: 37px 15px !important;
+	}
+}
