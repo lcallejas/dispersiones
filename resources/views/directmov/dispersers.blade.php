@@ -119,3 +119,8 @@
 		</div>
 	</div>
 @endsection
+
+@section('scripts')
+    <!-- Agrega fila a dispersiones del movimiento directo -->
+    {!!Html::script('js/movdirect/add-row-directmov-dispersers.js')!!}
+@endsection

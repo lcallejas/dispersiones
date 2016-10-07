@@ -7,6 +7,13 @@ $(function(){
 		var todispersers = $("#to-dispersers").val();
 		var todisperserstext = $("#to-dispersers option:selected").text();
 		var tobankdispersers = $("#to-bank-dispersers").val();
+		var finishaccountdispersers = $("#finish-account-dispersers").prop('checked');
+		var finishaccountdispersersvalue = 0;
+		var finishaccountdisperserscheck = "";
+			if(finishaccountdispersers == true){
+				finishaccountdispersersvalue = 1;
+				finishaccountdisperserscheck = "checked";
+			}
 		var rodedispersers = $("#rode-dispersers").val();
 
 		//Verifico si alguno de los input esta vacío o si el monto es numérico.
@@ -62,21 +69,25 @@ $(function(){
 		}else{
 			//Elimino el alert existente si lo hay
 			$("#errors-my-form").children("div").remove();
+
 			//Obtengo el monto ingresado y lo forzo a dos decimales
 			rodedispersers = parseFloat(rodedispersers);
 			rodedispersers = rodedispersers.toFixed(2);
 
 			//Agrego la nueva fila a la tabla
-			$("#table-add-directmov-dispersers tbody").append("<tr><td><input type='hidden' name='whodispersers[]' value='"+whodispersers+"' />"+whodisperserstext+"</td><td><input type='hidden' name='whobankdispersers[]' value='"+whobankdispersers+"' />"+whobankdispersers+"</td><td><input type='hidden' name='todispersers[]' value='"+todispersers+"' />"+todisperserstext+"</td><td><input type='hidden' name='tobankdispersers[]' value='"+tobankdispersers+"' />"+tobankdispersers+"</td><td class='number-cell'><input type='hidden' name='rodedispersers[]' value='"+rodedispersers+"' />"+rodedispersers+"</td><td><input type='hidden' name='finaldispersers[]' value='0' /><input type='checkbox' id='checkfinal[]' /></td><td><input type='hidden' name='finisheddispersers[]' value='0' /><input type='checkbox' id='checkfinished[]' /></td><td class='col-btn text-center'><button class='delete-row-directmov-dispersers btn btn-danger' value="+rodedispersers+">Eliminar</button></td></tr>");
+			$("#table-add-directmov-dispersers tbody").append("<tr><td><input type='hidden' name='whodispersers[]' value='"+whodispersers+"' />"+whodisperserstext+"</td><td><input type='hidden' name='whobankdispersers[]' value='"+whobankdispersers+"' />"+whobankdispersers+"</td><td><input type='hidden' name='todispersers[]' value='"+todispersers+"' />"+todisperserstext+"</td><td><input type='hidden' name='tobankdispersers[]' value='"+tobankdispersers+"' />"+tobankdispersers+"</td><td class='number-cell'><input type='hidden' name='rodedispersers[]' value='"+rodedispersers+"' />"+rodedispersers+"</td><td class='finaldisperserstd'><input type='hidden' name='finaldispersers[]' value='"+ finishaccountdispersersvalue +"' class='finaldispersersinput' /><input type='checkbox' id='checkfinal[]' "+ finishaccountdisperserscheck +" /></td><td><input type='hidden' name='finisheddispersers[]' value='0' /><input type='checkbox' id='checkfinished[]' /></td><td class='col-btn text-center'><button class='delete-row-directmov-dispersers btn btn-danger' value="+rodedispersers+">Eliminar</button></td></tr>");
 
-			//Si el total esta vacío ingreso el monto obtenido.
-			if($("#table-total-directmov-dispersers").text() == ""){
-				$("#table-total-directmov-dispersers").text(""+rodedispersers+"");
-			//Si el total ya tiene valor, le sumo el nuevo monto
-			}else{
-				var total = parseFloat($("#table-total-directmov-dispersers").text()) + parseFloat(rodedispersers);
-				total = total.toFixed(2);
-				$("#table-total-directmov-dispersers").text(total);
+			//Verifico si la nueva fila es cuenta final
+			if(finishaccountdispersersvalue == 1){
+				//Si el total esta vacío ingreso el monto obtenido.
+				if($("#table-total-directmov-dispersers").text() == ""){
+					$("#table-total-directmov-dispersers").text(""+rodedispersers+"");
+				//Si el total ya tiene valor, le sumo el nuevo monto
+				}else{
+					var total = parseFloat($("#table-total-directmov-dispersers").text()) + parseFloat(rodedispersers);
+					total = total.toFixed(2);
+					$("#table-total-directmov-dispersers").text(total);
+				}
 			}
 			
 			//Elimino los valores de los input
@@ -84,28 +95,39 @@ $(function(){
 			$("#who-bank-dispersers").val("");
 			$("#to-dispersers").val("");
 			$("#to-bank-dispersers").val("");
+			$("#finish-account-dispersers").prop("checked", false);
 			$("#rode-dispersers").val("");
 		}
 	});
  
 	// Evento que selecciona la fila y la elimina 
 	$(document).on("click",".delete-row-directmov-dispersers",function(){
-		//Obtengo el valor almacenado en el botón, es el monto
-		var rodedispersers = $(this).val();
-		//Hago la resta del monto eliminado al total
-		var total = parseFloat($("#table-total-directmov-dispersers").text()) - parseFloat(rodedispersers);
-		//Forzo al total a ser de dos decimales
-		total = total.toFixed(2);
-		//Si el total es igual a cero, elimino el número de la celda
-		if(total == 0){
-			$("#table-total-directmov-dispersers").text("");
-		//Si no, agrego el nuevo total a la celda		
-		}else{
-			$("#table-total-directmov-dispersers").text(total);
-		}
-
 		//Obtengo la fila a eliminar desde el botón
 		var parent = $(this).parents().parents().get(0);
+
+		//Verifico si es cuenta final
+		var finalaccount = $(parent).children('.finaldisperserstd').children('.finaldispersersinput').val();
+		if(finalaccount == 1){
+			//Obtengo el valor almacenado en el botón, es el monto
+			var rodedispersers = $(this).val();
+		}else{
+			var rodedispersers = 0;
+		}
+		//Hago la resta del monto eliminado al total
+		var total = $("#table-total-directmov-dispersers").text();
+		if(total != ""){
+			total = parseFloat($("#table-total-directmov-dispersers").text()) - parseFloat(rodedispersers);
+			//Forzo al total a ser de dos decimales
+			total = total.toFixed(2);
+			//Si el total es igual a cero, elimino el número de la celda
+			if(total == 0){
+				$("#table-total-directmov-dispersers").text("");
+			//Si no, agrego el nuevo total a la celda		
+			}else{
+				$("#table-total-directmov-dispersers").text(total);
+			}
+		}
+
 		//Elimino la fila obtenida
 		$(parent).remove();
 	});

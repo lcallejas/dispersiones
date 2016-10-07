@@ -77,3 +77,12 @@
 		</div>
 	</div>
 @endsection
+
+@section('scripts')
+    <!-- Agrega fila a entrada de nuevo movimiento directo -->
+    {!!Html::script('js/movdirect/add-row-directmov-entry.js')!!}
+    <!-- Agrega fila a salida de nuevo movimiento directo -->
+    {!!Html::script('js/movdirect/add-row-directmov-output.js')!!}
+    <!-- Da de alta el movimiento directo nuevo -->
+    {!!Html::script('js/movdirect/submit-directmov.js')!!}
+@endsection

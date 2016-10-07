@@ -82,7 +82,7 @@ $(function(){
 					directmov_output_comment: commentoutputreg,
 				},
 		        success: function(){
-		            document.location.href='/';
+		            document.location.href='/directmov';
 				}
 			});
 		}
